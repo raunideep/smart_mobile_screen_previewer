@@ -1,0 +1,59 @@
+import streamlit as st
+import streamlit.components.v1 as components
+
+st.set_page_config(layout="wide", page_title="Multi-Device Preview Tool")
+
+st.title("📱 Smart Mobile & Device Screen Previewer")
+
+target_url = st.text_input("Enter Website URL (e.g., sahitool.com or http://localhost:8000):", "")
+
+# Automatically add https:// if user forgets it
+if target_url and not target_url.startswith("http://") and not target_url.startswith("https://"):
+    target_url = "https://" + target_url
+
+if target_url:
+    st.markdown("---")
+    
+    # Popular mobile models and standard views dropdown list
+    device_options = {
+        "📱 iPhone SE / Standard (375x667)": {"width": 375, "height": 667, "type": "iPhone"},
+        "📱 iPhone Pro / 14-15 (390x844)": {"width": 390, "height": 844, "type": "iPhone"},
+        "📱 iPhone Pro Max (430x932)": {"width": 430, "height": 932, "type": "iPhone"},
+        "🤖 Android Mobile - Standard (360x800)": {"width": 360, "height": 800, "type": "Android"},
+        "🤖 Android Mobile - Large/Ultra (412x915)": {"width": 412, "height": 915, "type": "Android"},
+        "📋 Tablet / iPad View (768x1024)": {"width": 768, "height": 700, "type": "Tablet"},
+        "💻 Laptop / Desktop View (100%)": {"width": "100%", "height": 650, "type": "Desktop"}
+    }
+    
+    selected_device = st.selectbox("🔍 Select Popular Mobile Models & Views:", list(device_options.keys()))
+    
+    st.markdown(
+        """
+        <div style="margin-left: 20px; margin-top: -5px; margin-bottom: 10px; font-family: sans-serif;">
+            <span style="font-size: 24px; color: #a855f7; font-weight: bold;">╰──➤ Select the view</span>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+    
+    dev_info = device_options[selected_device]
+    w = dev_info["width"]
+    h = dev_info["height"]
+    dev_type = dev_info["type"]
+    
+    border_radius = "35px" if dev_type == "iPhone" else ("20px" if dev_type == "Android" else "10px")
+    border_style = "12px solid #222" if dev_type in ["iPhone", "Android"] else "6px solid #444"
+    
+    html_code = f"""
+    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; margin-top: 15px; font-family: sans-serif;">
+        <div style="font-weight: bold; color: #ffffff; margin-bottom: 12px; font-size: 18px;">
+            🎯 Active Preview: {selected_device}
+        </div>
+        
+        <div style="border: {border_style}; border-radius: {border_radius}; overflow: hidden; width: {w if isinstance(w, str) else str(w) + 'px'}; height: {h}px; background: white; box-shadow: 0 8px 25px rgba(0,0,0,0.8);">
+            <iframe src="{target_url}" width="100%" height="100%" style="border:none;"></iframe>
+        </div>
+    </div>
+    """
+    
+    components.html(html_code, height=h + 120, scrolling=True)
