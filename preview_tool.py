@@ -7,14 +7,14 @@ st.title("📱 Smart Mobile & Device Screen Previewer")
 
 target_url = st.text_input("Enter Website URL (e.g., sahitool.com or http://localhost:8000):", "")
 
-# Automatically add https:// if user forgets it
 if target_url and not target_url.startswith("http://") and not target_url.startswith("https://"):
     target_url = "https://" + target_url
 
-if target_url:
+if not target_url:
+    st.info("👆 Please enter a website URL above to start previewing across devices.")
+else:
     st.markdown("---")
     
-    # Popular mobile models and standard views dropdown list
     device_options = {
         "📱 iPhone SE / Standard (375x667)": {"width": 375, "height": 667, "type": "iPhone"},
         "📱 iPhone Pro / 14-15 (390x844)": {"width": 390, "height": 844, "type": "iPhone"},
