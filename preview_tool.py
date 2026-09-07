@@ -3,11 +3,8 @@ import streamlit.components.v1 as components
 
 st.set_page_config(layout="wide", page_title="Multi-Device Preview Tool")
 
-# Initialize session state for URL clearing/resetting
+# Initialize session state for URL tracking
 if "target_url" not in st.session_state:
-    st.session_state.target_url = ""
-
-def reset_app():
     st.session_state.target_url = ""
 
 st.title("📱 Smart Mobile & Device Screen Previewer")
@@ -43,22 +40,15 @@ else:
     
     selected_device = st.selectbox("🔍 Select Popular Mobile Models & Views:", list(device_options.keys()))
     
-    # Layout columns to place the arrow and refresh button cleanly
-    col_arrow, col_btn = st.columns([3, 1])
-    
-    with col_arrow:
-        st.markdown(
-            """
-            <div style="margin-top: 5px; margin-bottom: 10px; font-family: sans-serif;">
-                <span style="font-size: 22px; color: #a855f7; font-weight: bold;">╰──➤ Select the view</span>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
-        
-    with col_btn:
-        if st.button("🔄 Refresh / Clear", on_click=reset_app, use_container_width=True):
-            pass
+    # Arrow UI component pointing to the dropdown
+    st.markdown(
+        """
+        <div style="margin-top: 5px; margin-bottom: 10px; font-family: sans-serif;">
+            <span style="font-size: 22px; color: #a855f7; font-weight: bold;">╰──➤ Select the view</span>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
 
     dev_info = device_options[selected_device]
     w = dev_info["width"]
