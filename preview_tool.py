@@ -3,6 +3,16 @@ import streamlit.components.v1 as components
 
 st.set_page_config(layout="wide", page_title="Multi-Device Preview Tool")
 
+# Hide Streamlit default footer, header, and menu completely
+hide_streamlit_style = """
+    <style>
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
+    header {visibility: hidden;}
+    </style>
+"""
+st.markdown(hide_streamlit_style, unsafe_allow_html=True)
+
 # Initialize session state for URL tracking
 if "target_url" not in st.session_state:
     st.session_state.target_url = ""
@@ -60,7 +70,7 @@ else:
     
     html_code = f"""
     <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; margin-top: 15px; font-family: sans-serif;">
-        <div style="font-weight: bold; color: #ffffff; margin-bottom: 12px; font-size: 18px;">
+        <div style="font-weight: bold; color: #1e293b; margin-bottom: 12px; font-size: 18px;">
             🎯 Active Preview: {selected_device}
         </div>
         
